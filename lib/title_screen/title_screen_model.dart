@@ -3,11 +3,14 @@ class TitleScreenModel {
 
   TitleScreenModel({this.code = ""});
 
+  static const int codeMaxLength = 3;
+
+  bool isCodeEntered() => code.length == codeMaxLength;
+
   TitleScreenModel copy({
-    String? code,
+    required String code,
   }) {
-    return TitleScreenModel(
-      code: code ?? this.code,
-    );
+    final newCode = code.substring(0, 4);
+    return TitleScreenModel(code: newCode);
   }
 }
