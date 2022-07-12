@@ -6,12 +6,15 @@ class TitleScreenViewModel extends ChangeNotifier {
 
   TitleScreenModel get state => _state;
   set state(TitleScreenModel value) {
-    _state = _state.copy(code: value.code);
+    _state = _state.combineWith(model: value);
     notifyListeners();
   }
+
+  bool isCodeEntered() => _state.isCodeEntered();
 
   void onCodeChanged(String code) {
     final model = TitleScreenModel(code: code);
     state = model;
+    notifyListeners();
   }
 }

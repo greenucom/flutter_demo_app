@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_demo_app/DemoAppColors.dart';
 import 'package:flutter_demo_app/DemoAppStrings.dart';
 import 'package:flutter_demo_app/title_screen/title_screen_view_model.dart';
@@ -12,23 +13,21 @@ class TitleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => TitleScreenViewModel(),
-      child: Consumer<TitleScreenViewModel>(builder: (context, viewModel, child) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SafeArea(
-              child: Column(
-                children: const [
-                  _TopBar(),
-                  _WelcomeText(),
-                  _CodeRow(),
-                  _StartNewButton()
-                ],
-              ),
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SafeArea(
+            child: Column(
+              children: const [
+                _TopBar(),
+                _WelcomeText(),
+                _CodeRow(),
+                _StartNewButton()
+              ],
             ),
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 
@@ -78,7 +77,7 @@ class _CodeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, top: 48.0, right: 16.0),
+      padding: const EdgeInsets.only(left: 16.0, top: 56.0, right: 16.0),
       child: Row(
         children: const [
           Flexible(
@@ -103,7 +102,12 @@ class _CodeTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<TitleScreenViewModel>(context);
     return TextField(
+      onChanged: (newCode) {
+        viewModel.onCodeChanged(newCode);
+      },
+      inputFormatters: [LengthLimitingTextInputFormatter(3)],
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
       cursorColor: DemoAppColors.primaryBlue,
@@ -145,20 +149,22 @@ class _JoinButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<TitleScreenViewModel>(context);
     return MaterialButton(
-      onPressed: () {},
+      onPressed: viewModel.isCodeEntered() ? () {} : null,
       color: DemoAppColors.primaryBlue,
       disabledColor: DemoAppColors.containerGray,
       height: 64.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       elevation: 0.0,
       minWidth: double.infinity,
+      textColor: Colors.white,
+      disabledTextColor: DemoAppColors.textOnGrayDisabled,
       child: const Text(
         DemoAppStrings.join,
         style: TextStyle(
           fontSize: 19.0,
           fontWeight: FontWeight.w400,
-          color: Colors.white,
         ),
       ),
     );

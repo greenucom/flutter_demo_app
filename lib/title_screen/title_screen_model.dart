@@ -3,14 +3,18 @@ class TitleScreenModel {
 
   TitleScreenModel({this.code = ""});
 
-  static const int codeMaxLength = 3;
+  bool isCodeEntered() => code.length == _codeMaxLength;
 
-  bool isCodeEntered() => code.length == codeMaxLength;
-
-  TitleScreenModel copy({
-    required String code,
+  TitleScreenModel combineWith({
+    required TitleScreenModel model,
   }) {
-    final newCode = code.substring(0, 4);
-    return TitleScreenModel(code: newCode);
+    final newCode = model.code.length <= _codeMaxLength
+        ? model.code
+        : model.code.substring(0, 3);
+    return TitleScreenModel(
+      code: newCode,
+    );
   }
+
+  static const int _codeMaxLength = 3;
 }
