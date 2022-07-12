@@ -1,7 +1,7 @@
 class TitleScreenModel {
   final String code;
 
-  TitleScreenModel({required this.code});
+  TitleScreenModel({this.code = ""});
 
   TitleScreenModel copy({
     String? code,
