@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo_app/DemoAppColors.dart';
 import 'package:flutter_demo_app/DemoAppStrings.dart';
+import 'package:flutter_demo_app/camera_screen/camera_screen.dart';
 import 'package:flutter_demo_app/title_screen/title_screen_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,6 @@ class TitleScreen extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _TopBar extends StatelessWidget {
@@ -151,7 +151,14 @@ class _JoinButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<TitleScreenViewModel>(context);
     return MaterialButton(
-      onPressed: viewModel.isCodeEntered() ? () {} : null,
+      onPressed: viewModel.isCodeEntered()
+          ? () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CameraScreen()),
+              );
+            }
+          : null,
       color: DemoAppColors.primaryBlue,
       disabledColor: DemoAppColors.containerGray,
       height: 64.0,
@@ -179,7 +186,12 @@ class _StartNewButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 32.0, right: 16.0),
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => const CameraScreen()),
+          );
+        },
         color: DemoAppColors.primaryBlue,
         disabledColor: DemoAppColors.containerGray,
         height: 64.0,
