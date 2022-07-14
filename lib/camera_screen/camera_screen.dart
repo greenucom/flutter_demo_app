@@ -40,6 +40,12 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void _initCamera() async {
     final cameras = await availableCameras();
     _firstCamera = cameras.first;
