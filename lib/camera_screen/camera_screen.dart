@@ -28,15 +28,14 @@ class _CameraScreenState extends State<CameraScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // If the Future is complete, display the preview.
+            var camera = _controller.value;
             final size = MediaQuery.of(context).size;
-            final deviceRatio = size.width / size.height;
+            var scale = size.aspectRatio * camera.aspectRatio;
+            if (scale < 1) scale = 1 / scale;
             return Transform.scale(
-              scale: _controller.value.aspectRatio / deviceRatio,
+              scale: scale,
               child: Center(
-                child: AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: CameraPreview(_controller),
-                ),
+                child: CameraPreview(_controller),
               ),
             );
           } else {
